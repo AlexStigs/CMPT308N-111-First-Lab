@@ -43,3 +43,10 @@ from Customers
 where discountPct IN ( select discountPct
 			from Customers
 			where discountPct = '10.00' OR discountPct = '8.50');
+
+--#8: What are check constraints? What are they good for? What's the advantage of putting it inside a database?--
+      --Provide examples of good uses of check constraints and some examples of bad uses of check constraints. Explain the differences in the provided examples and argue the case.--
+
+--Answer for #8: Check constraints are a function used in SQL that place a limit on values that can be placed inside a respective column. The advantage of using them in SQL databases are to place a limit on what can be stored in it, such as making the constraint check for either the characters 'F' or 'M'.--
+	  --Good examples of using check constraints would be to make sure that no employee has a salary below a certain number, or to keep track of taxes. However, there are certainly bad ways that check constraints can be used.--
+	  --For example, a bad example would be to keep an age limit in a student database or the the cities where employees are from. These are bad examples because there may be exceptions to both provided cases. Like students who have skipped grades, or employees who commute.--
