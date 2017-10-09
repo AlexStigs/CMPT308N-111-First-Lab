@@ -8,7 +8,7 @@ ON Agents.aid = Orders.aid
 WHERE cid = 'c006';
 
 --#2: Show the ids of products ordered through any agent who makes at least one order for a customer in Beijing, sorted by pid from highest to lowest. Use joins, no subqueries--
-Select *
+Select Products.pid
 from Products JOIN Orders
 ON Products.pid = Orders.pid
 WHERE cid = 'c006'
@@ -22,8 +22,9 @@ WHERE cid NOT IN (Select cid
 
 --#4: Show the names of the customers who have never placed an order. Use an outer join.--
 Select name
-from Customers RIGHT JOIN Orders 
-ON 
+from Customers LEFT JOIN Orders 
+ON Customers.cid = Orders.cid
+WHERE Orders.cid is NULL;
 
 --#5: Show the names of the customers who placed at least one order through an agent in their own city, along with the agent[s'] names.--
 Select DISTINCT Customers.name, Agents.name
@@ -36,4 +37,12 @@ from Customers, Agents
 WHERE Customers.city = Agents.city;
 
 --#7: Show the name and city of customers who live in the city that makes the fewest different kinds of products. [Hint: use Count and group by on the Products table.]
-Select from 
+Select city, name 
+from Customers
+WHERE city IN (
+		Select City
+		from Products
+		GROUP BY City
+		Order by COUNT(pid) ASC
+		LIMIT 1
+	     );
