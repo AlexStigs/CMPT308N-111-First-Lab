@@ -58,4 +58,5 @@ WHERE totalUSD != Final_Price;
 
 --#7: What is the difference between a LEFT OUTER JOIN and a RIGHT OUTER JOIN? Give example queries in SQL to demonstrate. [Feel free to use the CAP database to make your points here.]--
 
---The difference between a LEFT OUTER JOIN and a RIGHT OUTER JOIN is that 
+--The difference between a LEFT OUTER JOIN and a RIGHT OUTER JOIN is that a LEFT OUTER JOIN will retain all the data from one table and pair it up with matching data from the other table. If there is not a match, then it will return a NULL value. A RIGHT OUTER JOIN will essentially do the same thing, but vice versa.--
+--For an example, a LEFT OUTER JOIN of the Customers and Orders tables will only show data that matches with those in the Customer table, while a RIGHT OUTER JOIN will do the same but with the Orders table being used a reference for the matching data. Any data that doesn't match will be returned as null.--
