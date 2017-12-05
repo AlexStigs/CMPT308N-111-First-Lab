@@ -274,27 +274,56 @@ CREATE OR REPLACE function WalletSaver()
 RETURNS TRIGGER AS
 $$
 begin
-	If new.priceUSD >= 100.00 THEN
-	DELETE from BowlingBall where priceUSD = new.priceUSD;
-	DELETE from BowlingBall where BBID = new.BBID;
+	If NEW.priceUSD >= 100.00 THEN
+	DELETE from BowlingBalls where priceUSD = new.priceUSD;
 	end if;
 	return new;
 end;
 $$
 language plpgsql;
 
+--A test for WalletSaver
 CREATE trigger WalletSaver
-after insert on BowlingBalls
-for each row
+AFTER INSERT ON BowlingBalls
+FOR EACH ROW
 execute procedure WalletSaver();
 
 /* select *
 from BowlingBalls;
 
 INSERT INTO BowlingBalls(BBID, MID, BallName, CoreName, Finish, CoverStock, WeightRangelbs, PriceUSD, BallQTY)
-	VALUES('B007', 'M001', 'Raptor Talon', 'Predator', '3000 Grit Laser Scan Sanded', 'Fusion Solid Reactive', '12-16', 530.00, 2); */
+	VALUES('B007', 'M001', 'Raptor Talon', 'Predator', '3000 Grit Laser Scan Sanded', 'Fusion Solid Reactive', '12-16', 530.00, 2); 
+INSERT INTO BowlingBalls(BBID, MID, BallName, CoreName, Finish, CoverStock, WeightRangelbs, PriceUSD, BallQTY)
+	VALUES('B008', 'M005', 'Red/Black Swirl', 'None', 'Polished', '1000 Pearl', '12-16', 80.00, 5);*/
 
-   
+
+CREATE OR REPLACE FUNCTION removeFromTowels()
+RETURNS TRIGGER AS
+$$
+begin
+   IF NEW.TowelType = 'Leather' THEN
+   DELETE from BowlingTowels where towelType = new.towelType;
+   END IF;
+   RETURN NEW;
+END;
+$$
+language plpgsql;
+--A test of the addToTowels--
+CREATE TRIGGER removeFromTowels
+AFTER INSERT ON BowlingTowels
+FOR EACH ROW 
+EXECUTE PROCEDURE removeFromTowels();
+
+/*INSERT INTO BowlingTowels(BTWID, MID, TowelName, TowelType, PriceUSD, TowelQTY)
+	Values ('BTW005', 'M001', 'Shammy', 'Leather', 18.99, 5); 
+  INSERT INTO BowlingTowels(BTWID, MID, TowelName, TowelType, PriceUSD, TowelQTY)
+	Values ('BTW006', 'M003', 'Leather Wipe', 'Micro Fiber', 20.99, 5); 
+  INSERT INTO BowlingTowels(BTWID, MID, TowelName, TowelType, PriceUSD, TowelQTY)
+	Values ('BTW007', 'M002', 'Deluxe Shammy', 'Leather', 24.99, 5); 	*/
+
+/* select *
+	from BowlingTowels; */
+
 
 --Roles--
 create role admin;
